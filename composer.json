@@ -1,0 +1,58 @@
+{
+    "name": "rentalmanager/importer",
+    "type": "library",
+    "description": "Rental Manager Importer package for parsing and extracting the inbound feeds",
+    "keywords": [
+        "Rentbits",
+        "Importer"
+    ],
+    "homepage": "https://github.com/rentalmanager/importer",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Rentbits",
+            "email": "support@rentbits.com",
+            "homepage": "https://rentbits.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "^7.1.3",
+        "kkszymanowski/traitor": "^0.2.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "pcrov/jsonreader": "^0.7.1",
+        "ext-json": "*",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-curl": "*",
+        "ext-zlib": "*",
+        "ext-xmlreader": "*",
+        "ext-SimpleXML": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=5.4.3",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "RentalManager\\Importer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RentalManager\\Importer\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RentalManager\\Importer\\ImporterServiceProvider"
+            ]
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    }
+}
