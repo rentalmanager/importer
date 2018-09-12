@@ -55,34 +55,43 @@ class ImporterParserCommand extends Command
             return;
         }
 
-        // update status of all items before the parser
-        $update = ImporterListing::where('provider_id', $feed->providerModel->id)
-                                    ->where('status', '!=', 'blocked')
-                                    ->where('status', '!=','rejected')
-                                    ->update(['status' => 'removed']);
-
-
         $parserToContinue = true;
+
+        foreach ( $latest as $key => $file )
+        {
+            if ( !$file['do_parse'] || !$file['error'] )
+            {
+                $parserToContinue = false;
+                continue;
+            }
+            $parserToContinue = true;
+        }
+
+        if ( $parserToContinue )
+        {
+            // update status of all items before the parser
+            $update = ImporterListing::where('provider_id', $feed->providerModel->id)
+                ->where('status', '!=', 'blocked')
+                ->where('status', '!=','rejected')
+                ->update(['status' => 'removed']);
+        }
+
 
         // Support for multiple provider files
         foreach ( $latest as $key => $file )
         {
             if ( !$file['do_parse'] )
             {
-                $parserToContinue = false;
+                Log::channel(Config::get('importer.log'))->error('File is the same as the previous one. Operation is stopped.', ['file' => $file]);
                 $this->info('File ' . $file['output'] . ' is the same as the previous one. Operation is stopped.');
                 continue;
             }
 
             if ( $file['error'] ) {
-                $parserToContinue = false;
                 Log::channel(Config::get('importer.log'))->error('A file as not been downloaded correctly. Parser stopped', ['file' => $file]);
                 $this->warn('A file as not been downloaded correctly. Parser stopped');
                 continue;
             }
-
-            $parserToContinue = true;
-
             // If we have on before method
             if ( $feed->provider->getOnBefore() )
             {
