@@ -52,7 +52,6 @@ class ImporterGeocodeNewCommand extends Command
             $this->warn('Geocoder stopped since the parser has been failed');
             return;
         }
-
         // count new
         $count = ImporterListing::where('provider_id', $feed->providerModel->id)->where('status', 'new')->count();
 

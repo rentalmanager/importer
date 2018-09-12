@@ -45,7 +45,6 @@ class ImporterParserCommand extends Command
         // Init the Feed class
         $feed = new Feed($arg);
 
-
         // Get the latest files from downloader
         $latest = $feed->getLatestFeeds($force);
 
@@ -59,11 +58,18 @@ class ImporterParserCommand extends Command
 
         foreach ( $latest as $key => $file )
         {
-            if ( !$file['do_parse'] || !$file['error'] )
+            if ( !$file['do_parse'] )
             {
                 $parserToContinue = false;
                 continue;
             }
+
+            if ( $file['error'] )
+            {
+                $parserToContinue = false;
+                continue;
+            }
+
             $parserToContinue = true;
         }
 
@@ -75,7 +81,6 @@ class ImporterParserCommand extends Command
                 ->where('status', '!=','rejected')
                 ->update(['status' => 'removed']);
         }
-
 
         // Support for multiple provider files
         foreach ( $latest as $key => $file )

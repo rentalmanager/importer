@@ -49,7 +49,6 @@ class ImporterDownloadCommand extends Command
 
         // get the files
         $files = $feed->provider->getFeedFiles();
-
         $table = [];
         $bar = $this->output->createProgressBar( count($files) );
 
