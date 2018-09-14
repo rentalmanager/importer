@@ -72,11 +72,11 @@ class UnitHelper
 
 
     /**
-     * @param Unit $unit
+     * @param $unit
      * @param $data
      * @return Unit
      */
-    private static function _updateUnit(Unit $unit, $data)
+    private static function _updateUnit($unit, $data)
     {
         foreach ( $data as $field => $val )
         {
