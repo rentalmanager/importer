@@ -185,7 +185,6 @@ class Validation {
     {
         $validate = Validator::make( $unit, [
             'foreign_id' => 'required',
-            'foreign_ids' => 'required|array',
             'type' => 'required|in:floor_plan,unit',
             'name' => 'nullable|string|max:255',
             'total_units' => 'nullable|numeric',

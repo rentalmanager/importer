@@ -184,7 +184,7 @@ class Feed
             $this->providerModel = $providerData;
 
             // instantiate the class
-            $className = "\RentalManager\Importer\FeedProviders\\" . $providerData->name;
+            $className = "\App\Importers\\" . $providerData->name;
 
             $this->provider = new $className;
             $this->provider->setModel($this->providerModel);
