@@ -54,7 +54,7 @@ class ImporterImportCommand extends Command
 
         // count new and updated
         $count = ImporterListing::where('provider_id', $feed->providerModel->id)
-                                ->whereIn('status', ['new', 'updated'])
+                                ->whereIn('status', ['new', 'updated', 'unmodified'])
                                 ->whereNotNull('location_data')
                                 ->count();
 

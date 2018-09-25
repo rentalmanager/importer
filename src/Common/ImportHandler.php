@@ -54,6 +54,10 @@ class ImportHandler
                 $property = $this->_update();
                 break;
 
+            case 'unmodified':
+                $property = $this->_activate();
+                break;
+
             default:
                 throw new InvalidArgumentException('Not allowed status', 500);
                 break;
@@ -111,6 +115,17 @@ class ImportHandler
         $units = UnitHelper::update($this->listing, $property);
 
         // Return the property
+        return $property;
+    }
+
+
+    /**
+     * Activate property
+     *
+     */
+    private function _activate()
+    {
+        $property = PropertyHelper::activate($this->listing);
         return $property;
     }
 

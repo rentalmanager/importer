@@ -19,6 +19,29 @@ class PropertyHelper
 {
 
     /**
+     * Activate
+     *
+     * @param $listing
+     * @return mixed
+     */
+    public static function activate($listing)
+    {
+        $property = self::find(false, false, $listing->property_id);
+
+        if ( !$property ) {
+            throw new InvalidArgumentException('Property does not exist in the main database!', 500);
+        }
+
+        $property->status = 'active';
+        $property->status_reason = null;
+
+        // finally save the property
+        $property->save();
+
+        return $property;
+    }
+
+    /**
      * Update the property
      *
      * @param $listing
@@ -92,6 +115,9 @@ class PropertyHelper
                 $property->{$field} = $update;
             }
         }
+
+        $property->status = 'active';
+        $property->status_reason = null;
 
         // always update the calculated fields
         $property->min_price = Calculator::calculateMin($listing->data['units'], 'price_min');
