@@ -58,52 +58,55 @@ class PropertyHelper
         // mark the array of simple fields which needs to be updated
         $property_updates = [];
 
-        foreach ( $listing->updated_fields as $key => $value )
+        if ($listing->updated_fields)
         {
-            // OK we need to have a switch here, because of the random stuff we might have
-            switch ( $key )
+            foreach ( $listing->updated_fields as $key => $value )
             {
-                case 'description':
-                    $property_updates['description'] = ContentFormatting::paragraph($listing->data['description']);
-                    break;
+                // OK we need to have a switch here, because of the random stuff we might have
+                switch ( $key )
+                {
+                    case 'description':
+                        $property_updates['description'] = ContentFormatting::paragraph($listing->data['description']);
+                        break;
 
-                case 'name':
-                    $property_updates['name'] = $listing->data['name'];
-                    break;
+                    case 'name':
+                        $property_updates['name'] = $listing->data['name'];
+                        break;
 
-                case 'is_community':
-                    $property_updates['is_community'] = $listing->data['is_community'];
-                    break;
+                    case 'is_community':
+                        $property_updates['is_community'] = $listing->data['is_community'];
+                        break;
 
-                case 'lease_terms':
-                    $property_updates['lease_terms'] = $listing->data['lease_terms'];
-                    break;
+                    case 'lease_terms':
+                        $property_updates['lease_terms'] = $listing->data['lease_terms'];
+                        break;
 
-                case 'property_type_id':
-                    $property->associatePropertyType($listing->data['property_type_id']);
-                    break;
+                    case 'property_type_id':
+                        $property->associatePropertyType($listing->data['property_type_id']);
+                        break;
 
-                case 'rental_type_id':
-                    $property->associateRentalType($listing->data['rental_type_id']);
-                    break;
+                    case 'rental_type_id':
+                        $property->associateRentalType($listing->data['rental_type_id']);
+                        break;
 
-                case 'lease_duration_id':
-                    $property->associateLeaseDuration($listing->data['lease_duration_id']);
-                    break;
+                    case 'lease_duration_id':
+                        $property->associateLeaseDuration($listing->data['lease_duration_id']);
+                        break;
 
-                case 'rental_restriction_id':
-                    $property->associateRentalRestriction($listing->data['rental_restriction_id']);
-                    break;
+                    case 'rental_restriction_id':
+                        $property->associateRentalRestriction($listing->data['rental_restriction_id']);
+                        break;
 
-                case 'amenities':
-                    $property->syncAmenities($listing->data['amenities']);
-                    break;
+                    case 'amenities':
+                        $property->syncAmenities($listing->data['amenities']);
+                        break;
 
-                case 'photos':
-                    // We just need to remove existing
-                    PhotoHelper::detach($property);
-                    PhotoHelper::insertAndAttach($property, $listing->data['photos']);
-                    break;
+                    case 'photos':
+                        // We just need to remove existing
+                        PhotoHelper::detach($property);
+                        PhotoHelper::insertAndAttach($property, $listing->data['photos']);
+                        break;
+                }
             }
         }
 
