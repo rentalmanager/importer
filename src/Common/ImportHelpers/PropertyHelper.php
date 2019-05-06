@@ -60,6 +60,7 @@ class PropertyHelper
 
         if ($listing->updated_fields)
         {
+
             foreach ( $listing->updated_fields as $key => $value )
             {
                 // OK we need to have a switch here, because of the random stuff we might have
