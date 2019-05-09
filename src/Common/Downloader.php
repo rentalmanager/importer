@@ -101,6 +101,10 @@ class Downloader
                 $this->_http();
                 break;
 
+            case 'ftp':
+                $this->_ftp();
+                break;
+
             default:
                 $this->_http();
                 break;
@@ -134,6 +138,37 @@ class Downloader
         return $this;
     }
 
+    public function _ftp()
+    {
+        if ( !$this->file || !$this->storage_path || !$this->extension )
+        {
+            throw new InvalidArgumentException('File and or storage path is not set');
+        }
+
+        try {
+
+            $whereTo = $this->storage_path . '/' . Config::get('importer.feed_file_name') . '-' . date('Y-m-d_H-i-s') . '.' . $this->extension;
+
+            $provider = explode('/',$this->storage_path)[1];
+            $providerConfig = Config::get('importer.feeds.'.$provider)[0];
+
+            $ftp = Storage::createFtpDriver([
+                'host' => $providerConfig['host'],
+                'username' => $providerConfig['user'],
+                'password' => $providerConfig['pass']
+            ]);
+
+            Storage::put($whereTo, $ftp->get($this->file));
+            $this->file_size = Storage::size( $whereTo );
+            $this->saved_file = storage_path('app/' . $whereTo );
+
+        } catch (\Exception $e) {
+
+            $this->error = $e->getMessage();
+        }
+
+        return $this;
+    }
 
     /**
      * Sets and executes the after method
