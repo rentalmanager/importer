@@ -30,6 +30,7 @@ class ImporterServiceProvider extends ServiceProvider
         'ImporterParser' => 'command.importer.parser',
         'ImporterXmlParser' => 'command.importer.xml-parser',
         'ImporterJsonParser' => 'command.importer.json-parser',
+        'ImporterTxtParser' => 'command.importer.txt-parser',
         'ImporterGeocode' => 'command.importer.geocode',
         'ImporterGeocodeNew' => 'command.importer.geocode-new',
         'ImporterImportSingle' => 'command.importer.import',
@@ -127,6 +128,13 @@ class ImporterServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.importer.json-parser', function () {
             return new \RentalManager\Importer\Commands\ImporterJsonParserCommand();
+        });
+    }
+
+    protected function registerImporterTxtParserCommand()
+    {
+        $this->app->singleton('command.importer.txt-parser', function () {
+            return new \RentalManager\Importer\Commands\ImporterTxtParserCommand();
         });
     }
 
