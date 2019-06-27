@@ -40,6 +40,7 @@ class UnitHelper
                             $unit = Unit::where('property_id', $property->id)->where('foreign_id', $k)->first();
                             if($unit)
                             {
+
                                 $unit = $unit->withTrashed();
                                 $updatedUnit = self::_updateUnit($unit, $u);
                                 if ( $updatedUnit->trashed() )
