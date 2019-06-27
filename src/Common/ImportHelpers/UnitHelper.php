@@ -37,11 +37,15 @@ class UnitHelper
                     foreach ( $value['updated'] as $k => $u )
                     {
                         try {
-                            $unit = Unit::where('property_id', $property->id)->where('foreign_id', $k)->first()->withTrashed();
-                            $updatedUnit = self::_updateUnit($unit, $u);
-                            if ( $updatedUnit->trashed() )
+                            $unit = Unit::where('property_id', $property->id)->where('foreign_id', $k)->first();
+                            if($unit)
                             {
-                                $updatedUnit->restore();
+                                $unit = $unit->withTrashed();
+                                $updatedUnit = self::_updateUnit($unit, $u);
+                                if ( $updatedUnit->trashed() )
+                                {
+                                    $updatedUnit->restore();
+                                }
                             }
                         } catch( \Exception $e)
                         {
