@@ -176,7 +176,7 @@ class PropertyHelper
         $property->min_beds = Calculator::calculateMin($data->units, 'beds');
         $property->min_baths = Calculator::calculateMin($data->units, 'baths');
         $property->min_sqft = Calculator::calculateMin($data->units, 'sqft');
-        $property->featured = ( $listing->provider_id === 999 || $listing->provider_id == 998 ) ? true : false; // hardcoded if Rentbits or RentPath
+        $property->featured = ( $listing->provider_id === 999 || $listing->provider_id == 998 ) ? true : false; //hardcoded if Rentbits or RentPath
         $property->associateRentalRestriction($data->rental_restriction_id);
         $property->status = 'active';
         $property->associateProvider($listing->provider_id);
